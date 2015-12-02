@@ -20,7 +20,7 @@ namespace SportsStore.WebUI.Controllers
         }
 
         public ViewResult List(string category, int page = 1)
-        {   
+        {
             ProductListViewModel model = new ProductListViewModel
             {
                 Products = repository.Products
@@ -32,7 +32,7 @@ namespace SportsStore.WebUI.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalItems = repository.Products.Count()
+                    TotalItems = category == null ? repository.Products.Count() : repository.Products.Where(e => e.Category == category).Count()
                 },
                 CurrentCategory = category
             };

@@ -176,6 +176,14 @@ namespace SportsStore.UnitTests
             Assert.AreEqual(categoryToSelect, result);
 
         }
+
+        [TestMethod]
+        public void Generate_Category_Specific_Product_Count()
+        {
+            // Arrange
+            // - Mock 리파지토리를 생성한다. 
+            
+        }
         
     }
 }

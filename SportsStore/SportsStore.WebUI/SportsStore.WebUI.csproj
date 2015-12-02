@@ -196,9 +196,6 @@
     <Content Include="scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Shared\ProductSummary.cshtml" />
     <Content Include="Views\Nav\Menu.cshtml" />
-    <Content Include="Views\Nav\1.cshtml" />
-    <Content Include="Views\Nav\2.cshtml" />
-    <Content Include="Views\Nav\3.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
