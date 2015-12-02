@@ -38,3 +38,5 @@ C:\dev\ASP.NET\pro_asp45\ch06\EssentialTools\EssentialTools\bin\WebActivatorEx.d
 C:\dev\ASP.NET\pro_asp45\ch06\EssentialTools\EssentialTools\bin\Ninject.xml
 C:\dev\ASP.NET\pro_asp45\ch06\EssentialTools\EssentialTools\bin\Ninject.Web.Common.xml
 C:\dev\ASP.NET\pro_asp45\ch06\EssentialTools\EssentialTools\bin\Ninject.Web.Mvc.xml
+C:\dev\ASP.NET\pro_asp45\ch06\EssentialTools\EssentialTools\bin\Moq.dll
+C:\dev\ASP.NET\pro_asp45\ch06\EssentialTools\EssentialTools\bin\Moq.xml
