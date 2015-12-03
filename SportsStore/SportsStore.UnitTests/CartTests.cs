@@ -120,6 +120,71 @@ namespace SportsStore.UnitTests
 
             Assert.AreEqual(target.Lines.Count(), 0);
         }
+
+        [TestMethod]
+        public void Can_add_To_Cart()
+        {
+            // Arrange - Mock 리파지토를 생성한다. 
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(m => m.Products).Returns(new Product[]
+            {
+                new Product {ProductID = 1, Name = "P1", Category = "Apples" },
+            }.AsQueryable());
+
+            Cart cart = new Cart();
+
+            CartController target = new CartController(mock.Object);
+
+            // Act
+            target.AddToCart(cart, 1, null);
+
+            // Assert
+            Assert.AreEqual(cart.Lines.Count(), 1);
+            Assert.AreEqual(cart.Lines.ToArray()[0].Product.ProductID, 1);
+        }
+
+        [TestMethod]
+        public void Adding_Product_To_Cart_Goes_To_Cart_Screen()
+        {
+            // Arragne - Mock 리파지토리를 생성한다.
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(m => m.Products).Returns(new Product[]
+            {
+                new Product {ProductID = 1, Name = "P1", Category = "Apples" }
+            }.AsQueryable());
+
+            // Arragne - Cart 개체를 생성한다. 
+            Cart cart = new Cart();
+
+            // Arragne - 컨트롤러를 생성한다. 
+            CartController target = new CartController(mock.Object);
+
+            // Act - 카트에 상품 추가 
+            RedirectToRouteResult result = target.AddToCart(cart, 2, "myUrl");
+
+            // Assert 
+            Assert.AreEqual(result.RouteValues["action"], "Index");
+            Assert.AreEqual(result.RouteValues["returnUrl"], "myUrl");
+        }
+
+        [TestMethod]
+        public void Can_View_Cart_Contents()
+        {
+            // Arrange - Cart 개체를 생성한다. 
+            Cart cart = new Cart();
+
+            // Arrange - 컨트롤러를 생성한다. 
+            CartController target = new CartController(null);
+
+            // Act - Index 액션 메서드를 호출한다. 
+            CartIndexViewmodel result = (CartIndexViewmodel)target.Index(cart, "myUrl").ViewData.Model;
+
+            //Assert
+            Assert.AreSame(result.Cart, cart);
+            Assert.AreEqual(result.ReturnUrl, "myUrl");
+            
+        }
+
     }
 
 
