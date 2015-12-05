@@ -133,7 +133,7 @@ namespace SportsStore.UnitTests
 
             Cart cart = new Cart();
 
-            CartController target = new CartController(mock.Object);
+            CartController target = new CartController(mock.Object, null);
 
             // Act
             target.AddToCart(cart, 1, null);
@@ -157,7 +157,7 @@ namespace SportsStore.UnitTests
             Cart cart = new Cart();
 
             // Arragne - 컨트롤러를 생성한다. 
-            CartController target = new CartController(mock.Object);
+            CartController target = new CartController(mock.Object, null);
 
             // Act - 카트에 상품 추가 
             RedirectToRouteResult result = target.AddToCart(cart, 2, "myUrl");
@@ -174,7 +174,7 @@ namespace SportsStore.UnitTests
             Cart cart = new Cart();
 
             // Arrange - 컨트롤러를 생성한다. 
-            CartController target = new CartController(null);
+            CartController target = new CartController(null, null);
 
             // Act - Index 액션 메서드를 호출한다. 
             CartIndexViewmodel result = (CartIndexViewmodel)target.Index(cart, "myUrl").ViewData.Model;
@@ -185,11 +185,85 @@ namespace SportsStore.UnitTests
             
         }
 
-    }
+        [TestMethod]
+        public void Cannot_Checkout_Empty_Cart()
+        {
+            // Arragne - Mock 주문 처리기 생성
+            Mock<IOrderProcessor> mock = new Mock<IOrderProcessor>();
+            // Arrange - 빈 Cart 개체 생성
+            Cart cart = new Cart();
 
+            // Arragne - 배송 정보 생성
+            ShippingDetails shippingDetails = new ShippingDetails();
 
-    
+            // Arrange - 컨트롤러의 인스턴스 생성
+            CartController target = new CartController(null, mock.Object);
+            
+            // Act
+            ViewResult result = target.Checkout(cart, shippingDetails);
 
-    
+            // Assert - 주문이 주문 처리기에 전달되지 않은 것을 확인한다. 
+            mock.Verify(m => m.ProcessOrder(It.IsAny<Cart>(), It.IsAny<ShippingDetails>()),
+                Times.Never());
+            // Assert - 메서드가 기본 뷰를 반환했는지 확인한다.
+            Assert.AreEqual("", result.ViewName);
+
+            // Assert - 유효하지 않은 모델을 뷰에 전달하는지 확인한다
+            Assert.AreEqual(false, result.ViewData.ModelState.IsValid);
+        }
+
+        [TestMethod]
+        public void Cannot_Checkout_Invalid_ShippingDetails()
+        {
+            // Arragne - Mock 주문 처리기 생성
+            Mock<IOrderProcessor> mock = new Mock<IOrderProcessor>();
+            // Arrange - 빈 Cart 개체 생성
+            Cart cart = new Cart();
+            cart.AddItem(new Product(), 1);
+
+            CartController target = new CartController(null, mock.Object);
+            target.ModelState.AddModelError("error", "error");
+
+            ViewResult result = target.Checkout(cart, new ShippingDetails());
+
+            // Assert - 주문이 주문 처리기에 전달되지 않은 것을 확인한다
+            mock.Verify(m => m.ProcessOrder(It.IsAny<Cart>(), It.IsAny<ShippingDetails>()),
+                Times.Never());
+
+            // Assert 
+            Assert.AreEqual("", result.ViewName);
+
+            // Assert - 유효하지 않은 모델을 뷰에 전달했는지 확인한다. 
+            Assert.AreEqual(false, result.ViewData.ModelState.IsValid);
+     
+        }
+
+        [TestMethod]
+        public void Can_Checkout_And_Submit_OrdeR()
+        {
+            // Arrange - Mock 주문 처리기를 생성한다. 
+            Mock<IOrderProcessor> mock = new Mock<IOrderProcessor>();
+
+            // Arrange - 하나의 상품이 담긴 Cart 개체를 생성한다
+            Cart cart = new Cart();
+            cart.AddItem(new Product(), 1);
+
+            // Arrange - 컨트롤러의 인스턴스를 생성한다. 
+            CartController target = new CartController(null, mock.Object);
+
+            // Act - 지불 처리를 시도한다. 
+            ViewResult result = target.Checkout(cart, new ShippingDetails());
+
+            // Assert - 주문 처리기에 주문이 전달된 것을 확인한다. 
+            mock.Verify(m => m.ProcessOrder(It.IsAny<Cart>(), It.IsAny<ShippingDetails>()), Times.Once());
+
+            // Assert - 메서드가 Completed 뷰를 반환하는지 확인한다. 
+            Assert.AreEqual("Completed", result.ViewName);
+
+            // Assert - 유욯한 모델을 뷰에 전달하는지 확인하다.
+            Assert.AreEqual(true, result.ViewData.ModelState.IsValid);
+                
+        }
+    }    
 }
 

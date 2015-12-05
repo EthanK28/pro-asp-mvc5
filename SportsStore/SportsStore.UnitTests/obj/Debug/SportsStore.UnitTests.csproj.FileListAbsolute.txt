@@ -14,7 +14,6 @@ C:\dev\ASP.NET\pro_asp45\SportsStore\SportsStore.UnitTests\bin\Debug\roslyn\VBCS
 C:\dev\ASP.NET\pro_asp45\SportsStore\SportsStore.UnitTests\bin\Debug\SportsStore.UnitTests.dll.config
 C:\dev\ASP.NET\pro_asp45\SportsStore\SportsStore.UnitTests\bin\Debug\SportsStore.UnitTests.dll
 C:\dev\ASP.NET\pro_asp45\SportsStore\SportsStore.UnitTests\bin\Debug\SportsStore.UnitTests.pdb
-C:\dev\ASP.NET\pro_asp45\SportsStore\SportsStore.UnitTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
 C:\dev\ASP.NET\pro_asp45\SportsStore\SportsStore.UnitTests\bin\Debug\Microsoft.Web.Infrastructure.dll
 C:\dev\ASP.NET\pro_asp45\SportsStore\SportsStore.UnitTests\bin\Debug\Moq.dll
 C:\dev\ASP.NET\pro_asp45\SportsStore\SportsStore.UnitTests\bin\Debug\Ninject.dll
