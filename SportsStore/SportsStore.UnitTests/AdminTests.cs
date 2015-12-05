@@ -134,7 +134,7 @@ namespace SportsStore.UnitTests
             mock.Verify(m => m.SaveProduct(It.IsAny<Product>()), Times.Never());
 
             // Assert - 메서드의 반환 형식을 확인한다. 
-            Assert.IsNotInstanceOfType(result, typeof(ViewResult));
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
         }
 
         [TestMethod]
